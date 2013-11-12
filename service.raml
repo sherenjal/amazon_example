@@ -1,0 +1,23 @@
+#%RAML 0.8
+---
+displayName: GET Service
+type: baseResource
+is: [ authorized ]
+get:
+  description: |
+    This implementation of the GET operation returns a list of all buckets owned by the authenticated sender of the request.
+
+    To authenticate a request, you must use a valid AWS Access Key ID that is registered with Amazon S3.
+    Anonymous requests cannot list buckets, and you cannot list buckets that you did not create.
+
+    Syntax
+    ------
+        GET / HTTP/1.1
+        Host: s3.amazonaws.com
+        Date: date
+        Authorization: signatureValue
+  responses:
+    200:
+      body:
+        schema: !include schemas/buckets-list.xsd
+        example: !include examples/buckets-list.xml
