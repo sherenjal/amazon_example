@@ -1,0 +1,16 @@
+#%RAML 0.8
+---
+title: Amazon S3 REST API
+version: 2006-03-01
+baseUri: https://s3.amazonaws.com/
+mediaType: application/xml
+resourceTypes:
+  - baseResource: !include resourceTypes/base-resource.raml
+  - objectResource: !include resourceTypes/base-object-resource.raml
+traits:
+  - hasContent: !include traits/content-headers.raml
+  - hasContentIntegrityCheck: !include traits/content-headers-integrity-check.raml
+  - authorized: !include traits/authorized.raml
+  - acl: !include traits/acl-headers.raml
+/: !include service.raml
+/{bucketName}: !include bucket.raml
