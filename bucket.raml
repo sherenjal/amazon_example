@@ -1,0 +1,151 @@
+#%RAML 0.8
+---
+displayName: Operations on Buckets
+uriParameters:
+  bucketName:
+    description: |
+      Bucket name
+    type: string
+type: baseResource
+is: [ authorized ]
+delete:
+  description: |
+    This implementation of the DELETE operation deletes the bucket named in the URI. All objects (including all object versions and Delete Markers)
+    in the bucket must be deleted before the bucket itself can be deleted.
+
+    Syntax
+    ------
+        DELETE /BucketName/ HTTP/1.1
+        Host: s3.amazonaws.com
+        Date: date
+        Authorization: signatureValue
+  responses:
+    204:
+      description: |
+        The bucket has been removed.
+get:
+  description: |
+    This implementation of the GET operation returns some or all (up to 1000) of the objects in a bucket.
+    You can use the request parameters as selection criteria to return a subset of the objects in a bucket.
+
+    To use this implementation of the operation, you must have READ access to the bucket.
+
+    Syntax
+    ------
+        GET /BucketName/ HTTP/1.1
+        Host: s3.amazonaws.com
+        Date: date
+        Authorization: signatureValue
+  queryParameters:
+    delimiter:
+      description: |
+        A delimiter is a character you use to group keys.
+
+        All keys that contain the same string between the prefix, if specified, and the first occurrence
+        of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don'
+        specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are
+        grouped under CommonPrefixes result element are not returned elsewhere in the response.
+      type: string
+      required: false
+    marker:
+      description: |
+        Specifies the key to start with when listing objects in a bucket. Amazon S3 lists objects in alphabetical order.
+      type: string
+      required: false
+    max-keys:
+      description: |
+        Sets the maximum number of keys returned in the response body. The response might contain fewer keys but will
+        never contain more. If there are additional keys that satisfy the search criteria but were not returned because
+        max-keys was exceeded, the response contains <IsTruncated>true</IsTruncated>. To return the additional keys, see marker.
+      type: string
+      required: false
+      default: 1000
+    prefix:
+      description: |
+        Limits the response to keys that begin with the specified prefix. You can use prefixes to separate a bucket into
+        different groupings of keys. (You can think of using prefix to make groups in the same way you'd use a
+        folder in a file system.)
+      type: string
+      required: false
+  responses:
+    200:
+      body:
+        schema: !include schemas/bucket-list-objects.xsd
+        example: !include examples/bucket-list-objects.xml
+head:
+  description: |
+    HEAD Bucke
+    This operation is useful to determine if a bucket exists and you have permission to access it. The operation returns a
+    200 OK if the bucket exists and you have permission to access it. Otherwise, the operation might return responses such
+    as 404 Not Found and 403 Forbidden.
+
+    Syntax
+    ------
+        HEAD /BucketName/ HTTP/1.1
+        Host: s3.amazonaws.com
+        Date: date
+        Authorization: signatureValue
+  responses:
+    200:
+      description: |
+        The bucket exists and you have permission to access it.
+put:
+  is: [ hasContent, acl ]
+  description: |
+    This implementation of the PUT operation creates a new bucket. To create a bucket, you must register with Amazon S3 and have
+    a valid AWS Access Key ID to authenticate requests. Anonymous requests are never allowed to create buckets.
+    By creating the bucket, you become the bucket owner.
+
+    Not every string is an acceptable bucket name. For information on bucket naming restrictions, see Working with Amazon S3 Buckets.
+
+    By default, the bucket is created in the US Standard region. You can optionally specify a region in the request body.
+    You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside
+    in Europe, you will probably find it advantageous to create buckets in the EU (Ireland) Region.
+
+    **Note**
+
+    If you create a bucket in a region other than US Standard, your application must be able to handle 307 redirect.
+
+    When creating a bucket using this operation, you can optionally specify the accounts or groups that should be granted specific
+    permissions on the bucket. There are two ways to grant the appropriate permissions using the request headers.
+
+    * Specify a canned ACL using the x-amz-acl request header.
+    * Specify access permissions explicitly using the x-amz-grant-read, x-amz-grant-write, x-amz-grant-read-acp, x-amz-grant-write-acp,
+      x-amz-grant-full-control headers. These headers map to the set of permissions Amazon S3 supports in an ACL.
+
+    **Note**
+    You can use either a canned ACL or specify access permissions explicitly. You cannot do both.
+
+    Syntax
+    ------
+        PUT /BucketName/ HTTP/1.1
+        Host: s3.amazonaws.com
+        Content-Length: length
+        Date: date
+        Authorization: signatureValue
+
+        <CreateBucketConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+          <LocationConstraint>BucketRegion</LocationConstraint>
+        </CreateBucketConfiguration>
+  body:
+    schema: !include schemas/bucket.xsd
+    example: !include examples/bucket.xml
+  responses:
+    200:
+      description: |
+        Bucket created.
+/?cors: !include bucket-cors.raml
+/?lifecycle: !include bucket-lifecycle.raml
+/?policy: !include bucket-policy.raml
+/?tagging: !include bucket-tagging.raml
+/?website: !include bucket-website.raml
+/?versions: !include bucket-object-versions.raml
+/?acl: !include bucket-acl.raml
+/?versioning: !include bucket-versioning.raml
+/?delete: !include bucket-delete-multiple.raml
+# /?location: TODO GET Bucket location
+# /?logging: TODO "GET Bucket logging" and "PUT Bucket logging"
+# /?notification: TODO "GET Bucket notification" and "PUT Bucket notification"
+# /?requestPayment: TODO "GET Bucket requestPayment" and "PUT Bucket requestPayment"
+# /?uploads: TODO List Multipart Uploads
+/{objectName}: !include object.raml
