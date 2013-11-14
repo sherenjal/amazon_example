@@ -1,0 +1,34 @@
+#%RAML 0.8
+title: "Muse: Mule Sales Enablement API"
+version: v1
+baseUri: http://examples.ramlicio.us/muse
+schemas: !include http://examples.ramlicio.us/schemas/muse/commonSchemas.raml
+resourceTypes: !include http://examples.ramlicio.us/types/muse/commonTypes.raml
+traits: !include http://examples.ramlicio.us/traits/muse/commonTraits.raml
+/presentations: &presentations
+  type: { collection: { schema: presentation } }
+  is: [ secured ]
+  get:
+    queryParameters:
+      title:
+        description: Filter by title
+  /{presentationId}:
+    type: { member: { schema: presentation } }
+    is: [ secured ]
+/products:
+  type: { collection: { schema: product } }
+  is: [ secured ]
+  get:
+    queryParameters:
+      region:
+        description: Filter by region
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              { "id": "12", "name": "product1" } 
+  /{productId}:
+    type: { member: { schema: product } }
+    is: [ secured ]
+    /presentations: *presentations
