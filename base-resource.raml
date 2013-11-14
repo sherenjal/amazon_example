@@ -1,10 +1,8 @@
-#%RAML 0.8
----
 usage: |
   All Amazon resources should use i
 description: |
   This is base resource type described common request and response headers and error response codes
-get?: &common
+get?: 
   headers:
     Content-Type:
       description: |
@@ -140,7 +138,7 @@ get?: &common
       description: |
         Moved Permanently, see error code on http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
       body:
-        schema: !include schemas/error.xsd
+        schema: !include error.xsd
     307:
       headers:
         Content-Length:
@@ -194,7 +192,7 @@ get?: &common
       description: |
         Moved Temporarily, see error code on http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
       body:
-        schema: !include schemas/error.xsd
+        schema: !include error.xsd
     400:
       headers:
         Content-Length:
@@ -248,7 +246,7 @@ get?: &common
       description: |
         Bad Request, see error code on http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
       body:
-        schema: !include schemas/error.xsd
+        schema: !include error.xsd
     403:
       headers:
         Content-Length:
@@ -302,7 +300,7 @@ get?: &common
       description: |
         Forbidden, see error code on http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
       body:
-        schema: !include schemas/error.xsd
+        schema: !include error.xsd
     404:
       headers:
         Content-Length:
@@ -356,7 +354,7 @@ get?: &common
       description: |
         Not Found, see error code on http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
       body:
-        schema: !include schemas/error.xsd
+        schema: !include error.xsd
     405:
       headers:
         Content-Length:
@@ -410,7 +408,7 @@ get?: &common
       description: |
         Method Not Allowed, see error code on http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
       body:
-        schema: !include schemas/error.xsd
+        schema: !include error.xsd
     409:
       headers:
         Content-Length:
@@ -464,7 +462,7 @@ get?: &common
       description: |
         Conflict, see error code on http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
       body:
-        schema: !include schemas/error.xsd
+        schema: !include error.xsd
     411:
       headers:
         Content-Length:
@@ -518,7 +516,7 @@ get?: &common
       description: |
         Length Required, see error code on http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
       body:
-        schema: !include schemas/error.xsd
+        schema: !include error.xsd
     416:
       headers:
         Content-Length:
@@ -572,7 +570,7 @@ get?: &common
       description: |
         Requested Range Not Satisfiable, see error code on http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
       body:
-        schema: !include schemas/error.xsd
+        schema: !include error.xsd
     500:
       headers:
         Content-Length:
@@ -626,7 +624,7 @@ get?: &common
       description: |
         Internal Server Error, see error code on http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
       body:
-        schema: !include schemas/error.xsd
+        schema: !include error.xsd
     501:
       headers:
         Content-Length:
@@ -680,7 +678,7 @@ get?: &common
       description: |
         Not Implemented, see error code on http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
       body:
-        schema: !include schemas/error.xsd
+        schema: !include error.xsd
     503:
       headers:
         Content-Length:
@@ -734,9 +732,9 @@ get?: &common
       description: |
         Service Unavailable, see error code on http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
       body:
-        schema: !include schemas/error.xsd
-put?: *common
-post?: *common
-delete?: *common
-head?: *common
-options?: *common
+        schema: !include error.xsd
+put?: 
+post?: 
+delete?: 
+head?: 
+options?: 
