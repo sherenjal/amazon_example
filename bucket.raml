@@ -68,8 +68,8 @@ get:
   responses:
     200:
       body:
-        schema: !include schemas/bucket-list-objects.xsd
-        example: !include examples/bucket-list-objects.xml
+        schema: !include bucket-list-objects.xsd
+        example: !include bucket-list-objects.xml
 head:
   description: |
     HEAD Bucke
@@ -126,24 +126,24 @@ put:
           <LocationConstraint>BucketRegion</LocationConstraint>
         </CreateBucketConfiguration>
   body:
-    schema: !include schemas/bucket.xsd
-    example: !include examples/bucket.xml
+    schema: !include bucket.xsd
+    example: !include bucket.xml
   responses:
     200:
       description: |
         Bucket created.
-/?cors: !include bucket-cors.raml
-/?lifecycle: !include bucket-lifecycle.raml
-/?policy: !include bucket-policy.raml
-/?tagging: !include bucket-tagging.raml
-/?website: !include bucket-website.raml
-/?versions: !include bucket-object-versions.raml
-/?acl: !include bucket-acl.raml
-/?versioning: !include bucket-versioning.raml
-/?delete: !include bucket-delete-multiple.raml
+#/?cors: !include bucket-cors.raml
+#/?lifecycle: !include bucket-lifecycle.raml
+#/?policy: !include bucket-policy.raml
+#/?tagging: !include bucket-tagging.raml
+#/?website: !include bucket-website.raml
+#/?versions: !include bucket-object-versions.raml
+#/?acl: !include bucket-acl.raml
+#/?versioning: !include bucket-versioning.raml
+#/?delete: !include bucket-delete-multiple.raml
 # /?location: TODO GET Bucket location
 # /?logging: TODO "GET Bucket logging" and "PUT Bucket logging"
 # /?notification: TODO "GET Bucket notification" and "PUT Bucket notification"
 # /?requestPayment: TODO "GET Bucket requestPayment" and "PUT Bucket requestPayment"
 # /?uploads: TODO List Multipart Uploads
-/{objectName}: !include object.raml
+#/{objectName}: !include object.raml
